@@ -133,4 +133,13 @@ function myFilter(arr, callback) {
 const filterArr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 const vf = myFilter(filterArr, (item) => item % 2 === 0);
 console.log(vf);
+// splice
+function mySplice(arr, position, count, ...items) {
+    if (arr === undefined || arr === null || !Array.isArray(arr)) {
+        throw new TypeError("Cannot read property 'splice' of not Array or null or undefined");
+    }
+}
+const arrSplice = [1, 2, 3, 4, 5, 6, 7, 8];
+arrSplice.splice(1, 0, 2, 3, 4);
+console.log(arrSplice);
 //# sourceMappingURL=index.js.map

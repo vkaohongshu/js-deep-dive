@@ -140,7 +140,7 @@ function myPop<T>(arr: T[]) {
 }
 
 // filter 
-function myFilter<T>(arr: T[], callback: (item: T, index: number, array: T[]) => Boolean) {
+function myFilter<T>(arr: T[], callback: (item: T, index: number, origin: T[]) => Boolean) {
     if (arr === undefined || arr === null || !Array.isArray(arr)) {
         throw new TypeError(`Cannot read property 'filter' of not Array or null or undefined!`);
     }
@@ -170,4 +170,16 @@ const filterArr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 const vf = myFilter(filterArr, (item) => item % 2 === 0);
 console.log(vf);
 
-// splice
+// new 
+function myNew<T>(targetFn: T, ...args: unknown[]) {
+    if (typeof targetFn !== 'function') {
+        throw new TypeError(`new function the first param must be a function`);
+    }
+
+    const o = Object.create(targetFn.prototype);
+    const res = targetFn.call(o, ...args);
+
+    const isObject = typeof o === 'object' && o !== null;
+    const isFunction = typeof res === 'function';
+    return isObject || isFunction ? res : o;
+}
