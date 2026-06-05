@@ -133,13 +133,15 @@ function myFilter(arr, callback) {
 const filterArr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 const vf = myFilter(filterArr, (item) => item % 2 === 0);
 console.log(vf);
-// splice
-function mySplice(arr, position, count, ...items) {
-    if (arr === undefined || arr === null || !Array.isArray(arr)) {
-        throw new TypeError("Cannot read property 'splice' of not Array or null or undefined");
+// new 
+function myNew(targetFn, ...args) {
+    if (typeof targetFn !== 'function') {
+        throw new TypeError(`new function the first param must be a function`);
     }
+    const o = Object.create(targetFn.prototype);
+    const res = targetFn.call(o, ...args);
+    const isObject = typeof o === 'object' && o !== null;
+    const isFunction = typeof res === 'function';
+    return isObject || isFunction ? res : o;
 }
-const arrSplice = [1, 2, 3, 4, 5, 6, 7, 8];
-arrSplice.splice(1, 0, 2, 3, 4);
-console.log(arrSplice);
 //# sourceMappingURL=index.js.map
