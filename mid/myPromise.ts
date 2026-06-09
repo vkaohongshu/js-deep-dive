@@ -52,7 +52,7 @@ class MyPromise {
             onRejected && onRejected(this.error)
         }
         return this;
-    }   
+    }
 }
 
 

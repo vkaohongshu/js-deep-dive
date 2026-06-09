@@ -171,6 +171,7 @@ const vf = myFilter(filterArr, (item) => item % 2 === 0);
 console.log(vf);
 
 // new 
+// 如果构造函数返回的是对象或函数，就返回这个对象；否则返回新创建的实例对象。
 function myNew<T>(targetFn: T, ...args: unknown[]) {
     if (typeof targetFn !== 'function') {
         throw new TypeError(`new function the first param must be a function`);
@@ -179,7 +180,31 @@ function myNew<T>(targetFn: T, ...args: unknown[]) {
     const o = Object.create(targetFn.prototype);
     const res = targetFn.call(o, ...args);
 
-    const isObject = typeof o === 'object' && o !== null;
+    const isObject = typeof res === 'object' && res !== null;
     const isFunction = typeof res === 'function';
     return isObject || isFunction ? res : o;
+}
+
+
+// call
+function myCall(fn: (...args: any[]) => void, that: any, ...args: any[]) {
+   that.fn = fn;
+   const result = that.fn(...args);
+   delete that.fn;
+   return result;
+}
+
+// apply
+function myApply(fn: (...args: any[]) => void, that: any, args?: any[]) {
+    that.fn = fn;
+    const result = that.fn(...(args || []));
+    delete that.fn;
+    return result;
+}
+
+// bind
+function myBind(fn: Function, that: any, ...bindArgs: any[]) {
+    return (...callArgs: any[]) => {
+        fn.call(that, ...bindArgs, ...callArgs);
+    }
 }
