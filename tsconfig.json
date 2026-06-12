@@ -11,6 +11,7 @@
     "target": "es2020",
     "esModuleInterop": true,
     "types": [],
+    "noImplicitThis": false,
     // For nodejs:
     // "lib": ["esnext"],
     // "types": ["node"],
