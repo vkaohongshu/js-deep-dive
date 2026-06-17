@@ -195,16 +195,60 @@ class MyPromise {
             reject(reason);
         })
     }
+
+    /**
+     * all 
+     * @param proms 
+     */
+    static all(proms: any[]) {
+        return new MyPromise((resolve, reject) => {
+            try {
+                const result: any[] = [];
+                let count = 0;
+                let finishCount = 0;
+                for (const prom of proms) {
+                    console.log('xx');
+                    let index = count;
+                    count ++;
+                    MyPromise.resolve(prom).then((data: any) => {
+                        finishCount++;
+                        result[index] = data;
+                        console.log(data, 'data');
+                        if (finishCount === count) {
+                            resolve(result);
+                        }
+                    })
+                }
+
+                if (count === 0) {
+                    resolve(result);
+                }
+            } catch (error) {
+                reject(error)
+            }
+        })
+    }
 }
 
-
-const p = new MyPromise((resolve, reject) => {
+const pro1 = new MyPromise((resolve) => resolve(1));
+const pro2 = new MyPromise((resolve) => {
     setTimeout(() => {
-        resolve(1);
-    })
-})
+        resolve(2)
+    }, 500)
+});
+const pro3 = new MyPromise((resolve) => resolve(3));
 
-p.then(function A1() {});
-setTimeout(() => {
-    p.then(function A2() {});
-})
+
+const p = MyPromise.all([pro1, pro2, pro3, 4]).then(data => console.log(data));
+
+
+// const p = new MyPromise((resolve, reject) => {
+//     setTimeout(() => {
+//         resolve(1);
+//     })
+// })
+
+// p.then(function A1() {});
+// setTimeout(() => {
+//     p.then(function A2() {});
+// })
