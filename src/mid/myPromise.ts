@@ -207,13 +207,11 @@ class MyPromise {
                 let count = 0;
                 let finishCount = 0;
                 for (const prom of proms) {
-                    console.log('xx');
                     let index = count;
                     count ++;
                     MyPromise.resolve(prom).then((data: any) => {
                         finishCount++;
                         result[index] = data;
-                        console.log(data, 'data');
                         if (finishCount === count) {
                             resolve(result);
                         }
@@ -228,18 +226,42 @@ class MyPromise {
             }
         })
     }
+
+    static allSettled(proms: any[]) {
+        const ps = [];
+        for (const prom of proms) {
+            ps.push(MyPromise.resolve(prom).then((data: any) => ({
+                status: PROMISE_STATUS.FULFILLED,
+                value: data,
+            }), (reason: any) => ({
+                status: PROMISE_STATUS.REJECTED,
+                reason,
+            })));
+        }
+
+        return MyPromise.all(ps);
+
+    }
+
+    static race(proms: any[]){
+        return new MyPromise((resolve, reject) => {
+            for (const prom of proms) {
+                MyPromise.resolve(prom).then(resolve, reject);
+            }
+        })
+    }
 }
 
 const pro1 = new MyPromise((resolve) => resolve(1));
-const pro2 = new MyPromise((resolve) => {
+const pro2 = new MyPromise((resolve, reject) => {
     setTimeout(() => {
-        resolve(2)
+        reject(2)
     }, 500)
 });
 const pro3 = new MyPromise((resolve) => resolve(3));
 
 
-const p = MyPromise.all([pro1, pro2, pro3, 4]).then(data => console.log(data));
+MyPromise.race([pro1, pro2, pro3, 4]).then(data => console.log(data));
 
 
 // const p = new MyPromise((resolve, reject) => {
