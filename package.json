@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "tsx src/index.ts",
+    "watch": "tsx watch src/index.ts"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/vkaohongshu/js-deep-dive/issues"
   },
-  "homepage": "https://github.com/vkaohongshu/js-deep-dive#readme"
+  "homepage": "https://github.com/vkaohongshu/js-deep-dive#readme",
+  "devDependencies": {
+    "@types/node": "^25.9.3",
+    "tsx": "^4.22.4"
+  }
 }

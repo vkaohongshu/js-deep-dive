@@ -10,7 +10,7 @@
     "module": "commonjs",
     "target": "es2020",
     "esModuleInterop": true,
-    "types": [],
+    "types": ["node"],
     "noImplicitThis": false,
     // For nodejs:
     // "lib": ["esnext"],
